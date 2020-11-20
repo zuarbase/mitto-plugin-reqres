@@ -12,7 +12,6 @@ class ReqResInput:
     def __init__(
             self,
             endpoint):
-        # pylint: disable=too-many-locals
         self.endpoint = endpoint
         self.base_url = "https://reqres.in/api/"
         self.headers = {"Content-Type": "application/json"}
