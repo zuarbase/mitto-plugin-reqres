@@ -35,7 +35,8 @@ class ReqRes:
         page = 1
         items = self.get_items(page=page)
         while items:
-            yield items
+            for item in items["data"]:
+                yield item
             page += 1
             items = self.get_items(page=page)
             if not items["data"]:
