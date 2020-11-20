@@ -6,7 +6,7 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-class ReqRes:
+class ReqResInput:
     """Get data from the reqres API"""
 
     def __init__(
