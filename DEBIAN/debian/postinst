@@ -1,0 +1,22 @@
+#!/bin/bash -e
+
+NAME=reqres
+PKG=mitto-plugin-reqres
+
+# make sure pip uses /root/.cache when run via sudo
+export HOME=/root
+
+action="$1"
+
+if [ "$action" != configure ]; then
+    exit 0
+fi
+
+# py plugins
+/opt/mitto/pyenv/bin/python3 -m compileall /opt/$PKG/$NAME
+ln -sf /opt/$PKG/$NAME /opt/mitto/plugin/$NAME
+
+# reload
+touch /etc/mitto/mitto.ini
+
+exit 0
