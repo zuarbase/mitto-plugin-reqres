@@ -2,7 +2,7 @@
   
 Example plugin for Mitto (version at the time of publishing was 2.8.7) which reads users from https://reqres/api/users. It has not been tested on any other endpoints.  
   
-To use on your Mitto use the following JSON config:  
+Create a Mitto `io` job with the following job config to pull the data into Mitto's PostgreSQL database:
 ```json
 {
     "input": {
