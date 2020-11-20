@@ -1,8 +1,8 @@
 # Mitto Plugin for ReqRes  
   
-Example plugin for Mitto (version at the time of publishing was 2.8.7) which reads users from https://reqres/api/users. It has not been tested on any other endpoints.  
+Example plugin for Mitto (version at the time of publishing was 2.8.7).
   
-Create a Mitto `io` job with the job config below to pipe user data from ReqRes and store it in Mitto's PostgreSQL database:
+Create a Mitto `io` job with the job config below to pipe user data from ReqRes (https://reqres.in/api/users) and store it in Mitto's PostgreSQL database:
 ```json
 {
     "input": {
@@ -44,3 +44,5 @@ Create a Mitto `io` job with the job config below to pipe user data from ReqRes 
     ]
 }
 ```
+
+This plugin has not been tested on any other endpoints. 
