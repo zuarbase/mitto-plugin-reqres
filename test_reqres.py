@@ -35,3 +35,17 @@ def test_get_items_with_page(requests_mock):
     requests_mock.get(url, json=TEST_RESPONSE)
     with_page = reqres.get_items(page=2)
     assert with_page == TEST_RESPONSE
+
+def test_requests_exception(requests_mock):
+    reqres = ReqResInput("users")
+    url = reqres.base_url + reqres.endpoint
+    requests_mock.get(url, exc=requests.exceptions.RequestException)
+    with pytest.raises(requests.exceptions.RequestException) as ex:
+        reqres.get_items()
+    assert str(ex.value) == "requests error"
+
+def test_iter(requests_mock):
+    reqres = ReqResInput("users")
+    url = reqres.base_url + reqres.endpoint
+    requests_mock.get(url, json=TEST_RESPONSE)
+    assert next(reqres) == TEST_RESPONSE["data"][0]

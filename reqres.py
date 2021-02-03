@@ -25,8 +25,8 @@ class ReqResInput:
 
         try:
             response = requests.get(url, headers=self.headers)
-        except requests.exceptions.RequestException:
-            print("Requests error")
+        except requests.exceptions.RequestException as e:
+            raise requests.exceptions.RequestException("requests error")
         json = response.json()
         return json
 
