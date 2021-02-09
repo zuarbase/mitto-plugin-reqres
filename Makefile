@@ -33,6 +33,5 @@ freeze:
 
 pyenv:
 	virtualenv -p python3 pyenv
-	pyenv/bin/pip install -e .[dev,prod]
 	pyenv/bin/pip install -r requirements.txt
 .PHONY: pyenv
