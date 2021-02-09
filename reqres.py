@@ -16,27 +16,22 @@ class ReqResInput:
         self.base_url = "https://reqres.in/api/"
         self.headers = {"Content-Type": "application/json"}
 
-    def get_items(self, page=None):
+    def get_items(self, page):
         """get items from reqres api"""
-        page_string = ""
-        if page is not None:
-            page_string = "?page={}".format(page)
-        url = self.base_url + self.endpoint + page_string
-
-        try:
-            response = requests.get(url, headers=self.headers)
-        except requests.exceptions.RequestException:
-            print("Requests error")
-        json = response.json()
-        return json
+        url = self.base_url + self.endpoint
+        response = requests.get(
+            url,
+            headers=self.headers,
+            params={"page": page}
+        )
+        response.raise_for_status()
+        return response.json()["data"]
 
     def __iter__(self):
         page = 1
         items = self.get_items(page=page)
         while items:
-            for item in items["data"]:
+            for item in items:
                 yield item
             page += 1
             items = self.get_items(page=page)
-            if not items["data"]:
-                items = {}
