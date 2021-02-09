@@ -1,5 +1,4 @@
-import pytest
-import requests
+import addict
 
 from reqres import ReqResInput
 
@@ -9,43 +8,60 @@ TEST_RESPONSE = {
     "total": 12,
     "total_pages": 2,
     "data": [
-        {"id": 1, "email": "george.bluth@reqres.in", "first_name": "George", "last_name": "Bluth", "avatar": "https://reqres.in/img/faces/1-image.jpg"},
-        {"id": 2, "email": "janet.weaver@reqres.in", "first_name": "Janet", "last_name": "Weaver", "avatar": "https://reqres.in/img/faces/2-image.jpg"},
-        {"id": 3, "email": "emma.wong@reqres.in", "first_name": "Emma", "last_name": "Wong", "avatar": "https://reqres.in/img/faces/3-image.jpg"},
-        {"id": 4, "email": "eve.holt@reqres.in", "first_name": "Eve", "last_name": "Holt", "avatar": "https://reqres.in/img/faces/4-image.jpg"},
-        {"id": 5, "email": "charles.morris@reqres.in", "first_name": "Charles", "last_name": "Morris", "avatar": "https://reqres.in/img/faces/5-image.jpg"},
-        {"id": 6, "email": "tracey.ramos@reqres.in", "first_name": "Tracey", "last_name": "Ramos", "avatar": "https://reqres.in/img/faces/6-image.jpg"}
-    ],
-    "support": {"url": "https://reqres.in/#support-heading", "text": "To keep ReqRes free, contributions towards server costs are appreciated!"}
+        {
+            "id": 1,
+            "email": "george.bluth@reqres.in",
+            "first_name": "fake",
+            "last_name": "test",
+            "avatar": "https://reqres.in/img/faces/1-image.jpg"
+        },
+        {
+            "id": 2,
+            "email": "janet.weaver@reqres.in",
+            "first_name": "not",
+            "last_name": "real",
+            "avatar": "https://reqres.in/img/faces/2-image.jpg"
+        },
+        {
+            "id": 3,
+            "email": "emma.wong@reqres.in",
+            "first_name": "Emma",
+            "last_name": "Wong",
+            "avatar": "https://reqres.in/img/faces/3-image.jpg"
+        },
+    ]
 }
+
 
 def test_reqres_base_url():
     reqres = ReqResInput("users")
     assert reqres.base_url == "https://reqres.in/api/"
 
+
 def test_get_items(requests_mock):
     reqres = ReqResInput("users")
     url = reqres.base_url + reqres.endpoint
     requests_mock.get(url, json=TEST_RESPONSE)
-    assert reqres.get_items() == TEST_RESPONSE
+    assert reqres.get_items(page=1) == TEST_RESPONSE["data"]
 
-def test_get_items_with_page(requests_mock):
-    reqres = ReqResInput("users")
-    url = reqres.base_url + reqres.endpoint
-    requests_mock.get(url, json=TEST_RESPONSE)
-    with_page = reqres.get_items(page=2)
-    assert with_page == TEST_RESPONSE
 
-def test_requests_exception(requests_mock):
+def test_iter(mocker):
+    # Here's an example of a test that doesn't use requests_mock
     reqres = ReqResInput("users")
-    url = reqres.base_url + reqres.endpoint
-    requests_mock.get(url, exc=requests.exceptions.RequestException)
-    with pytest.raises(requests.exceptions.RequestException) as ex:
-        reqres.get_items()
-    assert str(ex.value) == "requests error"
 
-def test_iter(requests_mock):
-    reqres = ReqResInput("users")
-    url = reqres.base_url + reqres.endpoint
-    requests_mock.get(url, json=TEST_RESPONSE)
-    assert next(reqres) == TEST_RESPONSE["data"][0]
+    def _request_get(*args, params=None, **kwargs):
+        if params["page"] == 1:
+            return addict.Dict({
+                "status_code": 200,
+                "json": lambda: TEST_RESPONSE,
+                "raise_for_status": lambda: None
+                })
+        return addict.Dict({
+                "json": lambda: {
+                    "data": []
+                },
+                "raise_for_status": lambda: None
+            })
+    mocker.patch("requests.get", new=_request_get)
+    assert next(iter(reqres)) == TEST_RESPONSE["data"][0]
+    assert list(reqres) == TEST_RESPONSE["data"]
