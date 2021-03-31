@@ -1,37 +1,68 @@
-PACKAGE := reqres
-SHELL := /bin/bash
+DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+MITTO_HOME ?= $(shell cd $(DIR)/../mitto && pwd)
+include $(MITTO_HOME)/Makefile.include
 
-all: flake8 pylint coverage
-.PHONY: all
+NAME := reqres
 
-flake8:
-	flake8 $(PACKAGE).py test_reqres.py
-.PHONY: flake8
+all: flake8 pylint coverage DEBIAN
+
+flake8_pkg:
+	$(FLAKE8) $(NAME)
+.PHONY: flake_pkg
+
+flake8_tests:
+	$(FLAKE8) tests/*
+.PHONY: flake_tests
+
+flake8: flake8_pkg flake8_tests
+
+pylint_pkg:
+	$(PYLINT) $(NAME)
+.PHONY: pylint_pkg
+
+pylint_tests:
+	$(PYLINT) tests/* --disable=missing-docstring,unused-argument
+.PHONY: pylint_tests
 
 pylint: pylint_pkg pylint_tests
 .PHONY: pylint
 
-pylint_pkg:
-	pylint $(PACKAGE)
-.PHONY: pylint_pkg
-
-pylint_tests:
-	pylint test_reqres.py --disable=missing-docstring,duplicate-code,unused-argument
-.PHONY: pylint_test
-
 test:
-	pytest -xv tests
+	$(PYTEST) -xv tests
 .PHONY: test
 
 coverage:
-	pytest --cov=$(PACKAGE) --cov-report=term-missing --cov-fail-under=100 test_reqres.py
+	$(PYTEST) --cov=reqres --cov-report=term-missing --cov-fail-under=100 tests/
 .PHONY: coverage
 
-freeze:
-	pyenv/bin/pip freeze | egrep -v "$(PACKAGE)|flake8|pylint|pytest|pkg-resources" > requirements.txt
-.PHONY: freeze
+DEBIAN:
+	make -C DEBIAN MITTO_HOME=$(MITTO_HOME)
+.PHONY: DEBIAN
+
+publish:
+	bash -c 'FILE=`ls ./DEBIAN/mitto*_all.deb` && curl -n -F "file=@$$FILE" $(PUBLISH_TARGET)'
+.PHONY: publish
 
 pyenv:
-	virtualenv -p python3 pyenv
-	pyenv/bin/pip install -r requirements.txt
+	[ ! -f requirements.txt ] || $(PIP) install -r requirements.txt
+	[ ! -f requirements_dev.txt ] || $(PIP) install -r requirements_dev.txt
 .PHONY: pyenv
+
+develop:
+	ln -snf $(DIR)/$(NAME) $(MITTO_HOME)/plugin/$(NAME)
+	ln -snf $(DIR)/static $(MITTO_HOME)/static/plugin/$(NAME)
+.PHONY: develop
+
+undevelop:
+	rm -f $(MITTO_HOME)/plugin/$(NAME) $(MITTO_HOME)/static/plugin/$(NAME)
+.PHONY: undevelop
+
+clean:
+	make -C DEBIAN clean
+	rm -rf static
+	find $(NAME) -name __pycache__ -prune -exec rm -rf '{}' ';'
+.PHONY: clean
+
+realclean: clean
+	git clean -f -d -X
+.PHONY: realclean
