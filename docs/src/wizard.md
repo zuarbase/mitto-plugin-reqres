@@ -49,8 +49,8 @@ The following resources will be helpful in writing wizards:
 
 ### Implementation
 
-At a high level, the following must be added to the initial
-wizard-less `reqres` plugin:
+At a high level, the following must be added to the initial `reqres`
+job:
 
 * Creation of two job configuration templates in `reqres/conf`.
 * Implementation of a `ReqRes` client in `reqres.py` which validates

@@ -2,7 +2,13 @@
   
 Example plugin for Mitto (version at the time of publishing was 2.8.7).
 
-This Mitto plugin uses minimal code. It does not create a plugin wizard or have 100% test coverage, etc. It is a very simple example of a Mitto plugin that can be used to create IO jobs that pipe data from a REST API.
+This Mitto plugin uses minimal code. It does not create a plugin
+wizard or have 100% test coverage, etc. It is a very simple example of
+a Mitto plugin that can be used to create IO jobs that pipe data from
+a REST API.
+
+Brief documentation on the associated wizard can be
+[found here](docs/src/wizard.md).
 
 ## Example Local Test  
   
