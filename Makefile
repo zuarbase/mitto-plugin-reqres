@@ -32,7 +32,7 @@ test:
 .PHONY: test
 
 coverage:
-	$(PYTEST) --cov=reqres --cov-report=term-missing --cov-fail-under=100 tests/
+	$(PYTEST) --cov=reqres --cov-report=term-missing tests/
 .PHONY: coverage
 
 DEBIAN:
