@@ -1,5 +1,13 @@
 # Mitto Plugin for ReqRes  
   
+## TODO
+
+* Update this README.
+* Wizard does not currently create the jobs.
+* Wizard does not redirect to job page after creating job.
+
+## Introduction
+
 Example plugin for Mitto (version at the time of publishing was 2.8.7).
 
 This Mitto plugin uses minimal code. It does not create a plugin

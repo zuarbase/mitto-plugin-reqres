@@ -6,4 +6,8 @@ MODULE_CONFIGS = [
         "module": "reqres.types",
         "classes": ["Credentials"],
     },
+    {
+        "module": "reqres.iov2.input",
+        "classes": ["Input"],
+    },
 ]

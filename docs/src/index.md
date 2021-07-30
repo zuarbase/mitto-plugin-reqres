@@ -5,3 +5,7 @@ plugin cookicutter, [click here](index-original.md).
 
 To see brief documentation related to the `ReqRes` wizard,
 [click here](wizard.md).
+
+
+* [Job Configs](job_configs.md)
+* [Inputters](inputters.md)

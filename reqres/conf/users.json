@@ -3,7 +3,7 @@
     "type": "io",
     "input": {
         "endpoint": "users",
-        "use": "reqres#ReqResInput"
+        "use": "reqres#Input"
     },
     "output": {
         "dbo": "{{ dbo }}",
