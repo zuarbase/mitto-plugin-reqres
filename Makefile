@@ -50,7 +50,6 @@ pyenv:
 
 develop:
 	ln -snf $(DIR)/$(NAME) $(MITTO_HOME)/plugin/$(NAME)
-	ln -snf $(DIR)/static $(MITTO_HOME)/static/plugin/$(NAME)
 .PHONY: develop
 
 undevelop:

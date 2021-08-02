@@ -12,7 +12,7 @@ __EMAIL__ = "support@zuar.com"
 
 
 from . import plugin
-from .iov.input import Input
+from .io.input import Input
 
 
 PLUGIN_NAME = plugin.PLUGIN.name  # pylint: disable=no-member

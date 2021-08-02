@@ -3,7 +3,11 @@ ReqRes Inputter
 
 By convention, a plugin's inputter is located in
 `<plugin-name>/<plugin-name>/iov2/input.py`; it is typically named `Input`.
-Some plugins have more than one iputters, depending upon their needs.
+Some plugins have more than one iputter.
+
+``Input`` is a Pydantic class.  Documentation describing ``Input`` is
+automatically created using ``sphinx-jsonschema`` if an entry is made in
+``docs/src/modules_schema_configs.py`` for ``Input``.
 """
 
 import logging

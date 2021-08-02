@@ -1,2 +1,2 @@
 
-.. pydantic:: reqres.iov2.Input
+.. pydantic:: reqres.io.Input
