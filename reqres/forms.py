@@ -39,16 +39,6 @@ class CredentialsForm(PrivateBaseModel):
         ""
     )
 
-
-
-class XCredentialsForm(PrivateBaseModel):
-    """ ReqRes user credentials """
-
-    credentials: Credentials = schema(
-        ...,
-        ""
-    )
-
     class Config(PrivateBaseModel.Config):
         """
         Config.title is displayed as the Wizard title.
