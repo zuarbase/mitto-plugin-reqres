@@ -62,7 +62,7 @@ job:
 * Because it is used in more than just forms, a `Credentials` class
   for `reqres` credentials is defined in `reqres/types.py`.
   `Credentials` are used by forms as well as `ReqResClient`.
-* `reqres/icon.svg` is the SVG icon displayed by Mitto for this
+* `asset/icon.svg` is the SVG icon displayed by Mitto for this
   wizard.
 * Finally, `reqres/__init__.py`.  This is the means through which
   Mitto loads the plugin into the Mitto execution environment.

@@ -12,7 +12,8 @@ logger = logging.getLogger(__name__)
 PLUGIN = Plugin(
     name=settings.PLUGIN_NAME,
     title=settings.PLUGIN_TITLE,
-    icon_path=(pathlib.Path(__file__).resolve().parent / "icon.svg"),
+    icon_path=(pathlib.Path(__file__).resolve().parent.parent
+               / "asset" / "icon.svg"),
 )
 
 # pylint: disable=no-member

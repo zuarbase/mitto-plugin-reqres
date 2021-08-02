@@ -11,8 +11,8 @@ __MAINTAINER__ = "ZUAR, Inc"
 __EMAIL__ = "support@zuar.com"
 
 
-from . import plugins
-from .iov2.input import Input
+from . import plugin
+from .iov.input import Input
 
 
-PLUGIN_NAME = plugins.PLUGIN.name  # pylint: disable=no-member
+PLUGIN_NAME = plugin.PLUGIN.name  # pylint: disable=no-member
