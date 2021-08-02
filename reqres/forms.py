@@ -78,8 +78,6 @@ class XCredentialsForm(PrivateBaseModel):
             raise PluginError("invalid email or password")
 
 
-
-
 def create_jobs_form(screens: T.List[Screen]):
     """Creates a JobsForm class dynamically.
 
@@ -197,32 +195,6 @@ class OutputForm(PrivateBaseModel):
 
         title = "Select oputput"
 
-    def post_validate(self, screens: T.List[Screen]):
-        """ Create the job(s) """
-
-        jobs_form = screens[1].form_inst
-        output_form = screens[2].form_inst
-        job_choices = jobs_form.job_choices
-
-        for job_choice in job_choices:
-
-            title = (output_form.title_prefix + " "
-                     if output_form.title_prefix else "")
-            title += pathlib.Path(job_choice).stem
-
-            params = {
-                "title": title,
-                "dbo": output_form.dbo,
-                "schema": output_form.schema_,
-                "tablename": output_form.tablename,
-            }
-
-            job_config_template = jobs_form.templates[job_choice]
-            job_config = hjson.loads(
-                render_template(job_config_template, params)
-            )
-            self.install_job(job_config, just_log=True)
-
     def install_job(self, job_config: T.Dict, just_log=True):
         """ Register the job with Mitto """
 
@@ -251,3 +223,29 @@ class OutputForm(PrivateBaseModel):
         # detail page
         # pylint: disable=no-member
         PLUGIN.set_job_id(result["id"])
+
+    def post_validate(self, screens: T.List[Screen]):
+        """ Create the job(s) """
+
+        jobs_form = screens[1].form_inst
+        output_form = screens[2].form_inst
+        job_choices = jobs_form.job_choices
+
+        for job_choice in job_choices:
+
+            title = (output_form.title_prefix + " "
+                     if output_form.title_prefix else "")
+            title += pathlib.Path(job_choice).stem
+
+            params = {
+                "title": title,
+                "dbo": output_form.dbo,
+                "schema": output_form.schema_,
+                "tablename": output_form.tablename,
+            }
+
+            job_config_template = jobs_form.templates[job_choice]
+            job_config = hjson.loads(
+                render_template(job_config_template, params)
+            )
+            self.install_job(job_config, just_log=False)
