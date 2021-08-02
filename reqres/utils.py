@@ -14,7 +14,7 @@ def get_conf_templates() -> T.Dict[str, str]:
 
     templates = dict()
     conf_dir = pathlib.Path(__file__).parent / "conf"
-    for conf_file in conf_dir.glob("*.json"):
+    for conf_file in conf_dir.glob("*.hjson"):
         templates[conf_file.name] = conf_file.read_text()
 
     return templates

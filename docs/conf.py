@@ -16,14 +16,6 @@
 # For a full list of Sphinx options, see:
 # http://www.sphinx-doc.org/en/master/config
 
-# Regarding Markdown...
-# 1) CommonMark/recommonmark does not support tables.  Additionally, they are
-#    deprecating certain types of links.
-# 2) sphinx-markdown-tables doesn't work well and causes other problems
-# 3) Markdow2reST has been the best so far. 
-#    https://github.com/miyakogi/m2r
-
-
 # -- Path setup --------------------------------------------------------------
 #
 # If extensions (or modules to be documented with autodoc) are in another
@@ -48,7 +40,7 @@ sys.path.insert(0, str(repos / "mitto"))
 sys.path.insert(0, str(repos / project))
 sys.path.insert(0, str(pathlib.Path().absolute()))
 
-MARKDOWN_M2R = "m2r"
+MARKDOWN_M2R = "m2r2"
 MARKDOWN_RECOMMONMARK = "recommonmark"
 # Controls which markdown processor is used
 MARKDOWN_PROCESSOR = MARKDOWN_M2R
@@ -57,7 +49,7 @@ MARKDOWN_PROCESSOR = MARKDOWN_M2R
 
 from mitto import __MAINTAINER__
 
-copyright = '(C) 2018-2021 ' + __MAINTAINER__
+copyright = '(C) 2018-2022 ' + __MAINTAINER__
 author =  __MAINTAINER__
 
 project_package = importlib.import_module(package)
@@ -73,7 +65,7 @@ release = __VERSION__
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #
-# needs_sphinx = '1.0'
+needs_sphinx = '3.4'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -84,14 +76,19 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
-    'sphinx.ext.viewcode',
-    # 'sphinx.ext.autosectionlabel',
-    'sphinxcontrib.confluencebuilder',
-    'sphinxcontrib.exceltable',
+    # N.B.: viewcode causes source code to be published in build/html/_modules
+    # 'sphinx.ext.viewcode',
+    'sphinx_togglebutton',
+    'sphinxcontrib.mermaid',
+    'sphinxcontrib.programoutput',
+    'sphinxcontrib.programoutput',
+    'sphinx_tabs.tabs',
     'sphinx-jsonschema',
+    'sphinx-prompt',
     'sphinx-pydantic',
     'sphinx_autodoc_typehints',
     'sphinx_markdown_tables',    # requires recommonmark, not m2r?
+    'sphinx_copybutton',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -156,6 +153,8 @@ html_theme_options = {
     "main_width": "90%",
 }
 
+html_theme_options = dict()
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -163,6 +162,7 @@ html_theme_options = {
 # The `../_static` means that `mitto/docs/_static` will be used and shared
 # between both `src` and `srcp`.
 html_static_path = ['../_static']
+html_css_files = ['css/style.css']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -173,19 +173,10 @@ html_static_path = ['../_static']
 # 'searchbox.html']``.
 #
 
-# Previously used:
-# Must edit out 'search' from navbar and at:
-# /usr/lib/python3.7/site-packages/themse/sphinxbootstrap4theme/navbar.html
-# until package is updated for search to work.
-# html_sidebars = {
-#     '**': [
-#         'globaltoc.html',
-#         'relations.html',
-#     ]
-# }
-
 html_sidebars = {}
 
+html_copy_source = True
+html_show_sourcelink = True
 html_show_sphinx = False
 
 # -- Options for HTMLHelp output ---------------------------------------------
@@ -298,6 +289,7 @@ def setup_recommonmark(app):
             }, True)
     app.add_transform(AutoStructify)
 
+
 def setup_m2r(app):
     """
     Use one of setup_recommonmark and setup_m2r
@@ -307,7 +299,7 @@ def setup_m2r(app):
     global m2r_disable_inline_math
     global m2r_no_underscore_emphasis
 
-    print("*** Markdown processor: mr2 ***")
+    print("*** Markdown processor: m2r2 ***")
 
     m2r_parse_relative_links   = True
     # m2r_anonymous_references   = False

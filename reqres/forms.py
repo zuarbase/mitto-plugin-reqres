@@ -2,7 +2,7 @@
 Wizard forms for ReqRes plugin
 """
 
-import json
+import hjson
 import logging
 import pathlib
 import pprint
@@ -206,7 +206,7 @@ class OutputForm(PrivateBaseModel):
             }
 
             job_config_template = jobs_form.templates[job_choice]
-            job_config = json.loads(
+            job_config = hjson.loads(
                 render_template(job_config_template, params)
             )
             self.install_job(job_config, just_log=True)
