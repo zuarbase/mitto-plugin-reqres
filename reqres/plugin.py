@@ -9,6 +9,10 @@ from . import forms, settings
 
 logger = logging.getLogger(__name__)
 
+icon_path = pathlib.Path(
+    __file__
+).resolve().parent.parent / "asset" / "icon.svg"
+
 PLUGIN = Plugin(
     name=settings.PLUGIN_NAME,
     title=settings.PLUGIN_TITLE,

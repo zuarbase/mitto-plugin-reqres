@@ -215,7 +215,7 @@ class OutputForm(PrivateBaseModel):
         """ Register the job with Mitto """
 
         # pylint: disable=cyclic-import,import-outside-toplevel
-        from reqres.plugins import PLUGIN
+        from reqres.plugin import PLUGIN
         # pylint: enable=cyclic-import,import-outside-toplevel
         job_config["name"] = PLUGIN.job_name(job_config["title"])
 

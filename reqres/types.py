@@ -44,8 +44,11 @@ class Credentials(PrivateBaseModel):
     token: T.Optional[str] = schema(
         None,
         """
-        API token.  Obtained by API call, not user.
+        API token.  Obtained by API call, not provided by user.
         """,
         # `hidden` prevents it from being sent to the front end
         hidden=True,
     )
+
+    class Config:
+        extra = "forbid"
