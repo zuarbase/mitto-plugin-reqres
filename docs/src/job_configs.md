@@ -5,7 +5,7 @@ Add documentation of job configurations; include examples.
 .. admonition:: Job Configuration - Unknown
    :class: dropdown
 
-   .. literalinclude:: conf/unknown.json
+   .. literalinclude:: conf/unknown.hjson
          :language: JSON
          :linenos:
 	
@@ -13,8 +13,11 @@ Add documentation of job configurations; include examples.
 .. admonition:: Job Configuration - Users
    :class: dropdown
 
-   .. literalinclude:: conf/users.json
+   .. literalinclude:: conf/users.hjson
          :language: JSON
          :linenos:
 	
+.. comment
+   resolves errors
+
 
