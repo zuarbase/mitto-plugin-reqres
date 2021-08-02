@@ -39,6 +39,16 @@ class CredentialsForm(PrivateBaseModel):
         ""
     )
 
+
+
+class XCredentialsForm(PrivateBaseModel):
+    """ ReqRes user credentials """
+
+    credentials: Credentials = schema(
+        ...,
+        ""
+    )
+
     class Config(PrivateBaseModel.Config):
         """
         Config.title is displayed as the Wizard title.
@@ -66,6 +76,8 @@ class CredentialsForm(PrivateBaseModel):
         self.credentials.token = get_token(screens[0].form_inst.credentials)
         if self.credentials.token is None:
             raise PluginError("invalid email or password")
+
+
 
 
 def create_jobs_form(screens: T.List[Screen]):

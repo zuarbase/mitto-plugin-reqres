@@ -9,7 +9,7 @@ from mitto.conftest import engine_fixture, xsession_fixture  # noqa: F401
 from mitto.playbook import ActionEnum
 from webapp.plugins import V2_PLUGINS_PREFIX
 from reqres import PLUGIN_NAME
-
+from reqres.types import Credentials
 
 WIZARD_ENDPOINT = f"{V2_PLUGINS_PREFIX}/{PLUGIN_NAME}"
 
@@ -27,9 +27,16 @@ def test_one(client):
     assert plugin_name in resp.json()["plugins"]
 
 
-def create_job(client, status_code=200):
+def show(state):
+    import copy
+    nstate = copy.deepcopy(state)
+    nstate["icon"] = "<svg-icon>"
+    return nstate
+
+
+def provide_creds(client, status_code=200):
     """
-    Successfully create job if no duplicate job exists
+    Provide creds on first page of wizard.
     """
 
     ##################################################
@@ -45,18 +52,15 @@ def create_job(client, status_code=200):
     #    - get email/password
     #    - simulate user data entry followed by "Next" click
 
-    credentials = {
-        "email": "michael.lawson@reqres.in",
-        "password": "PassworD",
-        "bad": 1,
-    }
-
     data = {
-        credentials: credentials,
+        "credentials": {
+            "email": "michael.lawson@reqres.in",
+            "password": "PassworD",
+        },
     }
 
     state["screens"][0]["data"] = data
-    state["action"] = ActionEnum.done
+    state["action"] = ActionEnum.next
     resp = client.post(WIZARD_ENDPOINT, json=state)
     assert resp.status_code == status_code
 
@@ -65,17 +69,69 @@ def create_job(client, status_code=200):
     if status_code == 200:
         # no errors on current screen
         assert state["screens"][0]["errors"]["detail"] == []
-        # screen_index unchanged
-        assert state["screen_index"] == 0
-        assert state["job_id"] > 0
+        # screen_index changed to next page
+        assert state["screen_index"] == 1
+
+    return state
 
 
 def test_two(xsession, client):
     """
-    Test successul job creation
+    Test successul creds
     """
 
-    create_job(client)
+    state = provide_creds(client)
+    state = choose_config(client, state)
+    db_done(client, state)
+
+def choose_config(client, state):
+    """
+    Choose a job config.
+    """
+
+    # confirm that one of the configs is among choices
+    assert "unknown.hjson" in state["screens"][1]["schema"][
+        "properties"]["job_choices"]["items"]["enum"]
+
+    # simulate user selecting job choice
+    state["screens"][1]["data"]["job_choices"] = ["unknown.json"]
+
+    # simulate user clicking 'next'
+    state["action"] = ActionEnum.next
+    resp = client.post(WIZARD_ENDPOINT, json=state)
+
+    state = resp.json()
+
+    assert resp.status_code == 200
+    assert state["screens"][1]["errors"]["detail"] == []
+    assert state["screen_index"] == 2
+
+    return state
+
+
+def db_done(client, state):
+    """
+    Choose a job config.
+    """
+
+    # confirm that one of the configs is among choices
+    assert "unknown.hjson" in state["screens"][1]["schema"][
+        "properties"]["job_choices"]["items"]["enum"]
+
+    # simulate user selecting job choice
+    state["screens"][1]["data"]["job_choices"] = ["unknown.json"]
+
+    # simulate user clicking 'next'
+    state["action"] = ActionEnum.next
+    resp = client.post(WIZARD_ENDPOINT, json=state)
+
+    state = resp.json()
+
+    assert resp.status_code == 200
+    assert state["screens"][1]["errors"]["detail"] == []
+    assert state["screen_index"] == 2
+
+    return state
 
 
 def test_three(xsession, client):
