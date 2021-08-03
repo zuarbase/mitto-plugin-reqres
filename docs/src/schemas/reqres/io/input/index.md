@@ -1,5 +1,5 @@
 
-# Module - reqres.iov2.input
+# Module - reqres.io.input
 
 .. jsonschema:: Input.json
 
