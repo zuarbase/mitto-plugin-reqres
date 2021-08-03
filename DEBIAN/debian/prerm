@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+NAME=reqres
+PKG=mitto-plugin-reqres
+
+action="$1"
+
+if [ "$action" != "remove" ]; then
+    exit 0
+fi
+
+# py plugin
+find /opt/$PKG -name __pycache__ -prune -exec rm -rf '{}' ';'
+rm -f /opt/mitto/plugin/$NAME
+
+exit 0
