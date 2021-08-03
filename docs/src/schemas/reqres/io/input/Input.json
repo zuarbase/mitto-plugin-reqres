@@ -19,7 +19,7 @@
         },
         "headers": {
             "title": "Headers",
-            "description": "TODO: The default is a dict, but name is plural.  can it be a list of dicts?",
+            "description": "TODO: The default is a dict, but name is plural.\n           can it be a list of dicts?",
             "default": {
                 "Content-Type": "application/json"
             },

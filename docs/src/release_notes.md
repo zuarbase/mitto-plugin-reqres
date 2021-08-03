@@ -5,3 +5,4 @@
 | Issue | Description |
 |-------|-------------|
 | [MRR-1](https://zuarkb.atlassian.net/browse/MRR-1) | add wizard and documentation |
+| [MRR-2](https://zuarkb.atlassian.net/browse/MRR-2) | documentation corrections |
