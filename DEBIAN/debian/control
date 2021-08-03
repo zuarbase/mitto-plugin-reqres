@@ -1,0 +1,10 @@
+Source: mitto-plugin-reqres
+Maintainer: ZUAR, Inc <support@zuar.com>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.2
+
+Package: mitto-plugin-reqres
+Architecture: all
+Depends: mitto
+Description: Mitto Plugin ReqRes

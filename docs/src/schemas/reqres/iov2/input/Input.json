@@ -1,0 +1,32 @@
+{
+    "title": "Input",
+    "description": "Get data from the reqres API",
+    "type": "object",
+    "properties": {
+        "endpoint": {
+            "title": "Endpoint",
+            "description": "TODO: add docstring here",
+            "type": "string"
+        },
+        "base_url": {
+            "title": "Base Url",
+            "description": "TODO: add docstring here",
+            "default": "https://reqres.in/api/",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2083,
+            "format": "uri"
+        },
+        "headers": {
+            "title": "Headers",
+            "description": "TODO: The default is a dict, but name is plural.  can it be a list of dicts?",
+            "default": {
+                "Content-Type": "application/json"
+            },
+            "type": "object"
+        }
+    },
+    "required": [
+        "endpoint"
+    ]
+}

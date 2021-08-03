@@ -1,0 +1,7 @@
+/mitto-plugin-*
+/mitto_*
+/opt
+/debian/changelog
+/usr/lib/librocksdb.*
+/usr/include
+/rocksdb*
