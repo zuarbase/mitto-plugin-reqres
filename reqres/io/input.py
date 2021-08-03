@@ -11,11 +11,13 @@ automatically created using ``sphinx-jsonschema`` if an entry is made in
 """
 
 import logging
-import requests
 
 import typing as T
 
-import pydantic
+# pylint: disable=no-name-in-module
+from pydantic import BaseModel, HttpUrl
+# pylint: enable=no-name-in-module
+import requests
 
 from mitto.script.job import schema
 
@@ -23,7 +25,7 @@ from mitto.script.job import schema
 logger = logging.getLogger(__name__)
 
 
-class Input(pydantic.BaseModel):
+class Input(BaseModel):
     """Get data from the reqres API"""
 
     endpoint: str = schema(
@@ -31,15 +33,21 @@ class Input(pydantic.BaseModel):
         """TODO: add docstring here""",
     )
 
-    base_url: pydantic.HttpUrl = schema(
+    base_url: HttpUrl = schema(
         "https://reqres.in/api/",
         """TODO: add docstring here""",
     )
 
     headers: T.Dict = schema(
         {"Content-Type": "application/json"},
-        """TODO: The default is a dict, but name is plural.  can it be a list of dicts?""",
+        """TODO: The default is a dict, but name is plural.
+           can it be a list of dicts?""",
     )
+
+    class Config:
+        """ Pydantic Config """
+
+        extras = "forbid"
 
     def get_items(self, page):
         """get items from reqres api"""

@@ -51,4 +51,5 @@ class Credentials(PrivateBaseModel):
     )
 
     class Config:
+        """ Pydantic Config """
         extra = "forbid"

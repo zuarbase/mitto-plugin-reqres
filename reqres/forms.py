@@ -2,13 +2,13 @@
 Wizard forms for ReqRes plugin
 """
 
-import hjson
 import logging
 import pathlib
 import pprint
 
 import typing as T
 
+import hjson
 import pydantic
 
 from mitto.exc import PluginError

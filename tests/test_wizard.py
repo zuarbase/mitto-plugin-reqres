@@ -1,15 +1,13 @@
 # pylint: disable=unused-argument,unused-import
-import tempfile
+import copy
 
-import hjson
-
-import pytest
+import pytest  # noqa: F401
 
 from mitto.conftest import engine_fixture, xsession_fixture  # noqa: F401
 from mitto.playbook import ActionEnum
-from webapp.plugins import V2_PLUGINS_PREFIX
 from reqres import PLUGIN_NAME
-from reqres.types import Credentials
+from webapp.plugins import V2_PLUGINS_PREFIX
+
 
 WIZARD_ENDPOINT = f"{V2_PLUGINS_PREFIX}/{PLUGIN_NAME}"
 
@@ -28,7 +26,6 @@ def test_one(client):
 
 
 def show(state):
-    import copy
     nstate = copy.deepcopy(state)
     nstate["icon"] = "<svg-icon>"
     return nstate
