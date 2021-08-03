@@ -14,9 +14,17 @@ appear twice on that page.
    May want to provide documentation for these topics:
 
    * how to build the plugin
-   * how to build the documentation (breifly covered in 
-     [index-original.md)(index-original.md)
    * how to install the plugin
+   * how does the plugin integrate with Mitto
+   * how does the wizard work; how to write one
+   * how to write a plugin without the complexity of a wizard; what
+     can be left out of this package
+   * documentation
+	 * how to build the documentation (breifly covered in 
+	   [index-original.md)(index-original.md)
+	 * either explain public vs. private documentation or remove support
+	   for private
+     * explain `conf.py` and symlinks in `src` and `srcp`.
 
 .. todo::
 
@@ -25,6 +33,7 @@ appear twice on that page.
    * cleanup/simplify `docs/conf.py`
    * inhibit sphinx warnings
    * modify CSS to enlarge font size
+
 
 .. comment
    comment
