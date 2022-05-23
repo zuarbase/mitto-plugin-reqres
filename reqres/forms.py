@@ -34,9 +34,9 @@ EXAMPLE_URI = ("e.g.: postgresql://[user[:password]@][netloc][:port]"
 class CredentialsForm(PrivateBaseModel):
     """ ReqRes user credentials """
 
-    credentials: Credentials = schema(
-        ...,
-        ""
+    credentials: T.Optional[Credentials] = schema(
+        None,
+        "Email and password credentials"
     )
 
     class Config(PrivateBaseModel.Config):
@@ -62,8 +62,8 @@ class CredentialsForm(PrivateBaseModel):
         the PluginError exception displays a message to the user; they
         are not allowed to progress to the next screen of the wizard.
         """
-
-        self.credentials.token = get_token(screens[0].form_inst.credentials)
+        
+        self.credentials.token = get_token(self.credentials)
         if self.credentials.token is None:
             raise PluginError("invalid email or password")
 
