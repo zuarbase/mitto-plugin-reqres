@@ -62,7 +62,7 @@ class CredentialsForm(PrivateBaseModel):
         the PluginError exception displays a message to the user; they
         are not allowed to progress to the next screen of the wizard.
         """
-        
+
         self.credentials.token = get_token(self.credentials)
         if self.credentials.token is None:
             raise PluginError("invalid email or password")
